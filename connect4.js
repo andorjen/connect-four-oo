@@ -28,7 +28,10 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
-    top.addEventListener('click', () => { this.handleClick }); // review, put in arrow functions?
+    top.addEventListener('click', () => {
+      console.log("line 31", this)
+      this.handleClick;
+    }); // review, put in arrow functions?
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
@@ -36,7 +39,7 @@ class Game {
       top.append(headCell);
     }
 
-    this.board.append(top);
+    board.append(top);
 
     // make main part of board
     for (let y = 0; y < this.height; y++) {
@@ -48,7 +51,7 @@ class Game {
         row.append(cell);
       }
 
-      this.board.append(row);
+      board.append(row);
     }
   }
 
@@ -88,7 +91,7 @@ class Game {
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
-    const y = this.findSpotForCol(x);
+    const y = findSpotForCol(x);
     if (y === null) {
       return;
     }
@@ -148,6 +151,10 @@ class Game {
   }
 
 }
+const myGame = new Game(6, 7);
+
+myGame.makeBoard();
+myGame.makeHtmlBoard();
 
 // const WIDTH = 7;
 // const HEIGHT = 6;
@@ -255,5 +262,4 @@ class Game {
 //   }
 // }
 
-makeBoard();
-makeHtmlBoard();
+
