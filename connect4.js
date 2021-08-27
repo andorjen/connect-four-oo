@@ -5,14 +5,21 @@
  * board fills (tie)
  */
 
+class Player {
+  constructor(color) {
+    this.color = color;
+  }
+}
+
 class Game {
   constructor(height = 6, width = 7) {
     this.height = height;
     this.width = width;
-    this.currPlayer = 1;
+    this.currPlayer = new Player("tomato")
     this.board = [];
     this.handleClick = this.handleClick.bind(this);
   }
+
 
   /**Starts game */
   start() {
@@ -25,13 +32,14 @@ class Game {
       this.board = [];
       this.makeBoard();
       this.makeHtmlBoard();
+      // console.log(this.currPlayer)
     });
   }
 
 
   /** makeBoard: create in-JS board structure:
- *   board = array of rows, each row is array of cells  (board[y][x])
- */
+  *   board = array of rows, each row is array of cells  (board[y][x])
+  */
   makeBoard() {
     for (let y = 0; y < this.height; y++) {
       this.board.push(Array.from({ length: this.width }));
@@ -85,7 +93,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${this.currPlayer}`);
+    piece.classList.add(`${this.currPlayer.color}`);
     piece.style.top = -50 * (y + 2);
 
     const spot = document.getElementById(`${y}-${x}`);
@@ -114,12 +122,12 @@ class Game {
     }
 
     // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
+    this.board[y][x] = this.currPlayer.color;
     this.placeInTable(y, x);
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.color} won!`);
     }
 
     // check for tie
@@ -128,7 +136,7 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer.color = this.currPlayer.color === "tomato" ? "teal" : "tomato";
   }
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -147,7 +155,7 @@ class Game {
           y < this.height &&
           x >= 0 &&
           x < this.width &&
-          this.board[y][x] === this.currPlayer
+          this.board[y][x] === this.currPlayer.color
       );
     }
 
@@ -172,6 +180,11 @@ class Game {
 
 const myGame = new Game(6, 7);
 myGame.start();
+
+
+
+
+
 // myGame.makeBoard();
 // myGame.makeHtmlBoard();
 
