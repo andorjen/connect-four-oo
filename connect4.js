@@ -11,19 +11,23 @@ class Game {
     this.width = width;
     this.currPlayer = 1;
     this.board = [];
+    this.handleClick = this.handleClick.bind(this);
   }
 
   /**Starts game */
-  start(){
+  start() {
     let startButton = document.getElementById("button");
-    console.log("This before the event listener", this)
-    startButton.addEventListener("click", () =>{
+    // console.log("This before the event listener", this)
+    startButton.addEventListener("click", () => {
+      // this.board = [];
+      const board = document.getElementById('board');
+      board.innerHTML = "";
       this.board = [];
       this.makeBoard();
       this.makeHtmlBoard();
     });
   }
-  
+
 
   /** makeBoard: create in-JS board structure:
  *   board = array of rows, each row is array of cells  (board[y][x])
@@ -40,8 +44,8 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
-    console.log("make HTML board:", this)
-    top.addEventListener('click', this.handleClick.bind(this)); // review, put in arrow functions?
+    // console.log("make HTML board:", this)
+    top.addEventListener('click', this.handleClick); // review, put in arrow functions?
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
@@ -92,6 +96,9 @@ class Game {
 
   endGame(msg) {
     alert(msg);
+    const top = document.querySelector('#column-top');
+    top.removeEventListener('click', this.handleClick);
+    // console.dir(top)
   }
 
   /** handleClick: handle click of column top to play piece */
@@ -127,10 +134,10 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
-    console.log("check for win", this)
+    // console.log("check for win", this)
     function _win(cells) {
-      console.log("_win", this)
-      // Check four cells to see if they're all color of current player
+      // console.log("_win", this)
+      // // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
 
