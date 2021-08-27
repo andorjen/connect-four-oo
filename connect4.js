@@ -28,10 +28,8 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
-    top.addEventListener('click', () => {
-      console.log("line 31", this)
-      this.handleClick;
-    }); // review, put in arrow functions?
+    console.log("make HTML board:", this)
+    top.addEventListener('click', this.handleClick.bind(this)); // review, put in arrow functions?
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
@@ -71,7 +69,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${currPlayer}`);
+    piece.classList.add(`p${this.currPlayer}`);
     piece.style.top = -50 * (y + 2);
 
     const spot = document.getElementById(`${y}-${x}`);
@@ -91,7 +89,7 @@ class Game {
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
-    const y = findSpotForCol(x);
+    const y = this.findSpotForCol(x);
     if (y === null) {
       return;
     }
@@ -117,7 +115,9 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
+    console.log("check for win", this)
     function _win(cells) {
+      console.log("_win", this)
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
