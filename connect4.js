@@ -13,6 +13,18 @@ class Game {
     this.board = [];
   }
 
+  /**Starts game */
+  start(){
+    let startButton = document.getElementById("button");
+    console.log("This before the event listener", this)
+    startButton.addEventListener("click", () =>{
+      this.board = [];
+      this.makeBoard();
+      this.makeHtmlBoard();
+    });
+  }
+  
+
   /** makeBoard: create in-JS board structure:
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
@@ -141,9 +153,8 @@ class Game {
         const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
         const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
-
         // find winner (only checking each win-possibility as needed)
-        if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+        if (_win.call(this, horiz) || _win.call(this, vert) || _win.call(this, diagDR) || _win.call(this, diagDL)) {
           return true;
         }
       }
@@ -151,10 +162,21 @@ class Game {
   }
 
 }
-const myGame = new Game(6, 7);
 
-myGame.makeBoard();
-myGame.makeHtmlBoard();
+const myGame = new Game(6, 7);
+myGame.start();
+// myGame.makeBoard();
+// myGame.makeHtmlBoard();
+
+// startButtton.addEventListener("click", () =>{
+
+//   const myGame = new Game(6, 7);
+
+//   myGame.makeBoard();
+//   myGame.makeHtmlBoard();
+//   // this.makeBoard();
+//   // this.makeHtmlBoard();
+// });
 
 // const WIDTH = 7;
 // const HEIGHT = 6;
